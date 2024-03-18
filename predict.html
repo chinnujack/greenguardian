@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f3f3f3;
+        }
+        .container {
+            text-align: center;
+        }
+        #prediction {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an Image</h1>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="uploadImage()">Upload</button>
+        <div id="prediction"></div>
+    </div>
+
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById('imageUpload');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/predict/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(prediction => {
+                document.getElementById('prediction').textContent = 'Predicted class: ' + prediction.predicted_class;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
