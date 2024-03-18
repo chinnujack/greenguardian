@@ -10,12 +10,8 @@ import pickle
 # Create a FastAPI application
 app = FastAPI()
 
-@app.get("/")
-def hello():
-    return {"API":"API is working fine"}
-
 # Define an endpoint to serve the HTML form
-@app.get("/predict/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def get_prediction_page():
     with open("predict.html", "r") as f:
         html_content = f.read()
